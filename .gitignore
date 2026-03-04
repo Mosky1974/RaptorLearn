@@ -1,6 +1,5 @@
 # Archivos de configuración sensibles
-config.php
-db_config.php
+config/database.php
 
 # Logs
 *.log
@@ -12,3 +11,6 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+
+# Dependencias
+/vendor/
