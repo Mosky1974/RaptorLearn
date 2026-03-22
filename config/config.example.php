@@ -3,6 +3,8 @@
 // CONFIGURACIÓN GLOBAL DE RAPTORLEARN
 // ============================================================
 
+/*
+
 // Entorno: 'development' o 'production'
 define('ENVIRONMENT', 'development');
 
@@ -41,3 +43,5 @@ if (ENVIRONMENT === 'development') {
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+*/

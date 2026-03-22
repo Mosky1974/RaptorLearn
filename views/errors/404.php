@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>404 - Página no encontrada</h1>
+    <h3>RaptorLearn</h3>
     <p>La página que buscas no existe o ha sido movida.</p>
     <a href="<?= BASE_URL ?>">Volver al inicio</a>
 </body>

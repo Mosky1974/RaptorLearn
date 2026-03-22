@@ -116,3 +116,83 @@ footer {
     color: #aaa;
     font-size: 0.9rem;
 }
+
+/* Formularios */
+.formulario-contenedor {
+    max-width: 480px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.campo {
+    margin-bottom: 1.2rem;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.campo input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.campo input:focus {
+    outline: none;
+    border-color: #2d6a4f;
+}
+
+.radio-grupo {
+    display: flex;
+    gap: 2rem;
+}
+
+.radio-grupo label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+}
+
+.alertas.errores {
+    background: #fde8e8;
+    border-left: 4px solid #e63946;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.2rem;
+    font-size: 0.9rem;
+    color: #c0392b;
+}
+
+.enlace-alternativo {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.enlace-alternativo a {
+    color: #2d6a4f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.texto-centro {
+    text-align: center;
+}
+
+.texto-centro p {
+    margin: 1rem 0;
+    color: #555;
+}
