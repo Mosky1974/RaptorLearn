@@ -224,4 +224,128 @@ class UsuariosController extends Controller {
 
         return $errores;
     }
+    // ============================================================
+    // PERFIL
+    // ============================================================
+
+    public function perfil(): void {
+        $this->requiereLogin();
+
+        $id      = $_SESSION['usuario_id'];
+        $usuario = $this->modelo->obtenerPerfil($id);
+        $insignias = $this->modelo->obtenerInsignias($id);
+        $historial = $this->modelo->obtenerHistorial($id);
+
+        // Si no tiene progreso inicializado, crearlo
+        if (empty($usuario['puntos_totales'])) {
+            $this->modelo->inicializarProgreso($id);
+            $usuario = $this->modelo->obtenerPerfil($id);
+        }
+
+        $this->cargarVista('usuarios/perfil', [
+            'titulo'    => 'Mi perfil',
+            'usuario'   => $usuario,
+            'insignias' => $insignias,
+            'historial' => $historial,
+        ]);
+    }
+
+    // ============================================================
+    // EDITAR PERFIL
+    // ============================================================
+
+    public function editarPerfil(): void {
+        $this->requiereLogin();
+
+        $id      = $_SESSION['usuario_id'];
+        $usuario = $this->modelo->obtenerPorId($id);
+        $errores = [];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            // Subida de avatar
+            $avatar = $usuario['avatar'];
+            if (!empty($_FILES['avatar']['name'])) {
+                $ext      = strtolower(pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION));
+                $permitidos = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                if (!in_array($ext, $permitidos)) {
+                    $errores[] = 'Formato de imagen no permitido.';
+                } elseif ($_FILES['avatar']['size'] > 2 * 1024 * 1024) {
+                    $errores[] = 'La imagen no puede superar 2MB.';
+                } else {
+                    $nombreArchivo = 'avatar_' . $id . '.' . $ext;
+                    $destino = ROOT_PATH . '/public/img/avatares/' . $nombreArchivo;
+                    if (move_uploaded_file($_FILES['avatar']['tmp_name'], $destino)) {
+                        $avatar = $nombreArchivo;
+                    } else {
+                        $errores[] = 'Error al subir la imagen.';
+                    }
+                }
+            }
+
+            if (empty($_POST['nombre'])) {
+                $errores[] = 'El nombre es obligatorio.';
+            }
+
+            if (empty($errores)) {
+                $this->modelo->actualizarPerfil($id, [
+                    'nombre'          => trim($_POST['nombre']),
+                    'apellidos'       => trim($_POST['apellidos'] ?? ''),
+                    'fecha_nacimiento' => $_POST['fecha_nacimiento'] ?? null,
+                    'avatar'          => $avatar,
+                ]);
+
+                // Actualizar nombre en sesión
+                $_SESSION['usuario_nombre'] = trim($_POST['nombre']);
+
+                $this->redirigir('usuarios/perfil');
+                return;
+            }
+        }
+
+        $this->cargarVista('usuarios/editar_perfil', [
+            'titulo'  => 'Editar perfil',
+            'usuario' => $usuario,
+            'errores' => $errores,
+        ]);
+    }
+
+    // ============================================================
+    // CAMBIAR CONTRASEÑA
+    // ============================================================
+
+    public function cambiarPassword(): void {
+        $this->requiereLogin();
+
+        $id     = $_SESSION['usuario_id'];
+        $errores = [];
+        $ok     = false;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (strlen($_POST['password_nueva']) < 8) {
+                $errores[] = 'La nueva contraseña debe tener al menos 8 caracteres.';
+            } elseif ($_POST['password_nueva'] !== $_POST['password_confirm']) {
+                $errores[] = 'Las contraseñas nuevas no coinciden.';
+            } else {
+                $resultado = $this->modelo->cambiarPassword(
+                    $id,
+                    $_POST['password_actual'],
+                    $_POST['password_nueva']
+                );
+
+                if ($resultado === true) {
+                    $ok = true;
+                } else {
+                    $errores[] = $resultado;
+                }
+            }
+        }
+
+        $this->cargarVista('usuarios/cambiar_password', [
+            'titulo'  => 'Cambiar contraseña',
+            'errores' => $errores,
+            'ok'      => $ok,
+        ]);
+    }
 }

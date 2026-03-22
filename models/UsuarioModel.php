@@ -106,4 +106,101 @@ class UsuarioModel extends Model {
         );
         $stmt->execute([$id]);
     }
+    /**
+     * Obtener perfil completo con estadísticas
+     */
+    public function obtenerPerfil(int $id): array|false {
+        $stmt = $this->db->prepare(
+            "SELECT u.*, 
+                    n.nombre_nivel, n.numero_nivel,
+                    p.puntos_totales, p.especies_descubiertas, 
+                    p.racha_dias, p.puntos_nivel_actual,
+                    n2.puntos_necesarios as puntos_siguiente_nivel
+            FROM usuarios u
+            LEFT JOIN progreso_usuarios p ON p.id_usuario = u.id_usuario
+            LEFT JOIN niveles n ON n.id_nivel = p.id_nivel_actual
+            LEFT JOIN niveles n2 ON n2.numero_nivel = n.numero_nivel + 1
+            WHERE u.id_usuario = ?
+            LIMIT 1"
+        );
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
+    /**
+     * Obtener insignias del usuario
+     */
+    public function obtenerInsignias(int $id): array {
+        $stmt = $this->db->prepare(
+            "SELECT i.*, iu.fecha_obtencion
+            FROM insignias_usuarios iu
+            JOIN insignias i ON i.id_insignia = iu.id_insignia
+            WHERE iu.id_usuario = ?
+            ORDER BY iu.fecha_obtencion DESC"
+        );
+        $stmt->execute([$id]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Obtener historial de actividad reciente
+     */
+    public function obtenerHistorial(int $id, int $limite = 10): array {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM historial_actividad
+            WHERE id_usuario = ?
+            ORDER BY fecha_actividad DESC
+            LIMIT ?"
+        );
+        $stmt->execute([$id, $limite]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Actualizar datos personales
+     */
+    public function actualizarPerfil(int $id, array $datos): bool {
+        $stmt = $this->db->prepare(
+            "UPDATE usuarios 
+            SET nombre = ?, apellidos = ?, fecha_nacimiento = ?, avatar = ?
+            WHERE id_usuario = ?"
+        );
+        return $stmt->execute([
+            $datos['nombre'],
+            $datos['apellidos'] ?? null,
+            $datos['fecha_nacimiento'] ?? null,
+            $datos['avatar'] ?? null,
+            $id,
+        ]);
+    }
+
+    /**
+     * Cambiar contraseña verificando la actual
+     */
+    public function cambiarPassword(int $id, string $passwordActual, string $passwordNueva): bool|string {
+        $usuario = $this->obtenerPorId($id);
+        if (!$usuario) return 'Usuario no encontrado.';
+
+        if (!password_verify($passwordActual, $usuario['password_hash'])) {
+            return 'La contraseña actual no es correcta.';
+        }
+
+        $stmt = $this->db->prepare(
+            "UPDATE usuarios SET password_hash = ? WHERE id_usuario = ?"
+        );
+        $stmt->execute([password_hash($passwordNueva, PASSWORD_BCRYPT), $id]);
+        return true;
+    }
+
+    /**
+     * Inicializar progreso para usuario nuevo
+     */
+    public function inicializarProgreso(int $id): void {
+        $stmt = $this->db->prepare(
+            "INSERT IGNORE INTO progreso_usuarios 
+                (id_usuario, id_nivel_actual, puntos_totales)
+            VALUES (?, 1, 0)"
+        );
+        $stmt->execute([$id]);
+    }
 }
