@@ -30,6 +30,20 @@
     </header>
 
     <main>
+        <?php if (!empty($_SESSION['nivel_nuevo'])): ?>
+            <div class="notificacion-nivel">
+                🎉 ¡Felicidades! Has subido al nivel <strong><?= htmlspecialchars($_SESSION['nivel_nuevo']) ?></strong>
+                <button onclick="this.parentElement.remove()">✕</button>
+            </div>
+            <?php unset($_SESSION['nivel_nuevo']); ?>
+        <?php endif; ?>
+        <?php if (!empty($_SESSION['especie_nueva'])): ?>
+            <div class="notificacion-especie">
+                🦅 ¡Nueva especie descubierta! <strong><?= htmlspecialchars($_SESSION['especie_nueva']) ?></strong>
+                <button onclick="this.parentElement.remove()">✕</button>
+            </div>
+            <?php unset($_SESSION['especie_nueva']); ?>
+        <?php endif; ?>
         <?php require_once $contenido; ?>
     </main>
 

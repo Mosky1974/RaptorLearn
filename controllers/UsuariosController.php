@@ -108,6 +108,15 @@ class UsuariosController extends Controller {
             $_SESSION['tipo_usuario']  = $usuario['tipo_usuario'];
 
             $this->modelo->actualizarUltimoAcceso($usuario['id_usuario']);
+
+            // Gamificación: puntos por login diario
+            $gamificacion = new GamificacionService();
+            $resultadoLogin = $gamificacion->registrarLoginDiario($usuario['id_usuario']);
+
+            if ($resultadoLogin['subio_nivel']) {
+                $_SESSION['nivel_nuevo'] = $resultadoLogin['nivel_nuevo']['nombre_nivel'];
+            }
+            
             $this->redirigir('');
         }
 

@@ -505,3 +505,152 @@ footer {
     border-radius: 4px;
     margin-bottom: 0.5rem;
 }
+
+/* Notificación de subida de nivel */
+.notificacion-nivel {
+    background: #2d6a4f;
+    color: white;
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notificacion-nivel button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+}
+
+/* Notificación de especie descubierta */
+.notificacion-especie {
+    background: #52b788;
+    color: white;
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notificacion-especie button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+}
+
+/* Detalle de especie */
+.detalle-especie {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.especie-cabecera {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+}
+
+.especie-figura img {
+    width: 280px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.especie-figura figcaption {
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-top: 0.3rem;
+    text-align: center;
+}
+
+.especie-titulo h1 { margin-bottom: 0.3rem; }
+.especie-titulo h2 { color: #666; font-weight: normal; margin-bottom: 0.5rem; }
+.nombre-ingles     { color: #aaa; font-size: 0.9rem; margin-bottom: 0.5rem; }
+
+.dificultad {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 2px 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.especie-seccion {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.especie-seccion h3 {
+    color: #1a3a2a;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.especie-medidas {
+    display: flex;
+    gap: 2rem;
+    margin: 1rem 0;
+}
+
+.medida {
+    text-align: center;
+    background: #f8f8f8;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+}
+
+.medida-valor {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2d6a4f;
+}
+
+.medida-label {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.especie-curiosidades {
+    background: #f0faf4;
+    border-left: 4px solid #2d6a4f;
+}
+
+.audio-item {
+    margin-bottom: 1rem;
+}
+
+.audio-item audio {
+    display: block;
+    margin-top: 0.3rem;
+    width: 100%;
+}
+
+.especie-volver {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
