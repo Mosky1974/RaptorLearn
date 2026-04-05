@@ -4,6 +4,25 @@ class EspecieModel extends Model {
     protected string $tabla = 'especies';
 
     /**
+     * Obtener todas las especies con su imagen principal
+     */
+    public function obtenerTodos(): array {
+        $stmt = $this->db->query(
+            "SELECT e.id_especie, e.nombre_comun, e.nombre_cientifico,
+                    e.estado_conservacion, e.dificultad_identificacion,
+                    e.familia, e.activa,
+                    i.ruta_imagen
+             FROM especies e
+             LEFT JOIN imagenes_especies i
+                    ON i.id_especie = e.id_especie
+                   AND i.es_principal = 1
+             WHERE e.activa = 1
+             ORDER BY e.nombre_comun"
+        );
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Obtener especies destacadas para la portada
      */
     public function obtenerDestacadas(int $limite = 6): array {
@@ -35,6 +54,41 @@ class EspecieModel extends Model {
         );
         $like = '%' . $termino . '%';
         $stmt->execute([$like, $like]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Búsqueda optimizada para la API (devuelve solo los campos necesarios)
+     */
+    public function buscarParaApi(string $termino): array {
+        $stmt = $this->db->prepare(
+            "SELECT e.id_especie, e.nombre_comun, e.nombre_cientifico,
+                    e.estado_conservacion, e.dificultad_identificacion,
+                    e.familia,
+                    i.ruta_imagen
+             FROM especies e
+             LEFT JOIN imagenes_especies i
+                    ON i.id_especie = e.id_especie
+                   AND i.es_principal = 1
+             WHERE e.activa = 1
+               AND (e.nombre_comun      LIKE :like1
+                OR  e.nombre_cientifico LIKE :like2
+                OR  e.nombre_ingles     LIKE :like3
+                OR  e.familia           LIKE :like4)
+             ORDER BY
+                CASE WHEN e.nombre_comun LIKE :starts THEN 0 ELSE 1 END,
+                e.nombre_comun
+             LIMIT 10"
+        );
+        $like   = '%' . $termino . '%';
+        $starts = $termino . '%';
+        $stmt->execute([
+            ':like1'  => $like,
+            ':like2'  => $like,
+            ':like3'  => $like,
+            ':like4'  => $like,
+            ':starts' => $starts,
+        ]);
         return $stmt->fetchAll();
     }
 
