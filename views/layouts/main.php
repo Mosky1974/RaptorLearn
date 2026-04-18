@@ -48,7 +48,7 @@
     </main>
 
     <footer>
-        <p>&copy; <?= date('Y') ?> RaptorLearn - Portal Educativo sobre Rapaces Ibéricas</p>
+        <p>&copy; <?= date('Y') ?> RaptorLearn - Portal Educativo sobre Rapaces Ibéricas - by JBC</p>
     </footer>
 
     <script src="<?= BASE_URL ?>/public/js/main.js"></script>
