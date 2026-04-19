@@ -33,6 +33,54 @@
             </span>
         </div>
     </div>
+    <!-- Galería de imágenes -->
+    <?php
+    $imagenesGaleria = array_filter($especie['imagenes'], fn($img) => !$img['es_principal']);
+    ?>
+    <?php if (!empty($imagenesGaleria)): ?>
+        <section class="especie-seccion">
+            <h3>📷 Galería de imágenes</h3>
+            <div class="galeria-grid">
+                <?php foreach ($imagenesGaleria as $img): ?>
+                    <figure class="galeria-item" onclick="abrirLightbox('<?= BASE_URL ?>/public/img/especies/<?= htmlspecialchars($img['ruta_imagen']) ?>', '<?= htmlspecialchars(addslashes($img['creditos'] ?? '')) ?>')">
+                        <img src="<?= BASE_URL ?>/public/img/especies/<?= htmlspecialchars($img['ruta_imagen']) ?>"
+                            alt="<?= htmlspecialchars($img['descripcion'] ?? $especie['nombre_comun']) ?>">
+                        <?php if (!empty($img['descripcion'])): ?>
+                            <figcaption><?= htmlspecialchars($img['descripcion']) ?></figcaption>
+                        <?php endif; ?>
+                    </figure>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
+        <button class="lightbox-cerrar" onclick="cerrarLightbox()">✕</button>
+        <figure class="lightbox-contenido">
+            <img id="lightbox-img" src="" alt="">
+            <figcaption id="lightbox-creditos"></figcaption>
+        </figure>
+    </div>
+
+    <script>
+    function abrirLightbox(src, creditos) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox-creditos').textContent = creditos;
+        document.getElementById('lightbox').classList.add('activo');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarLightbox() {
+        document.getElementById('lightbox').classList.remove('activo');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') cerrarLightbox();
+    });
+    </script>
+
 
     <!-- Descripción -->
     <section class="especie-seccion">
