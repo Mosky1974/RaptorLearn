@@ -81,7 +81,6 @@
     });
     </script>
 
-
     <!-- Descripción -->
     <section class="especie-seccion">
         <h3>Descripción</h3>
@@ -171,6 +170,108 @@
             <?php endforeach; ?>
         </section>
     <?php endif; ?>
+
+    <!-- Mapa de distribución -->
+    <section class="especie-seccion">
+        <h3>🗺️ Distribución en la Península Ibérica</h3>
+
+        <?php
+        $distribucion = $modeloEspecies->obtenerDistribucion($especie['id_especie']);
+        $distribucionJson = json_encode($distribucion, JSON_UNESCAPED_UNICODE);
+        ?>
+
+        <div class="mapa-leyenda">
+            <span class="mapa-badge residente">Residente</span>
+            <span class="mapa-badge reproductor">Reproductor</span>
+            <span class="mapa-badge invernante">Invernante</span>
+            <span class="mapa-badge migrante">Migrante</span>
+            <span class="mapa-badge ocasional">Ocasional</span>
+        </div>
+
+        <div id="mapa-distribucion"></div>
+
+        <?php if (!empty($distribucion)): ?>
+            <div class="mapa-tabla">
+                <table class="ranking-tabla">
+                    <thead>
+                        <tr>
+                            <th>Comunidad</th>
+                            <th>Presencia</th>
+                            <th>Población estimada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($distribucion as $d): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($d['nombre']) ?></td>
+                                <td><span class="mapa-badge <?= htmlspecialchars($d['presencia']) ?>"><?= ucfirst(htmlspecialchars($d['presencia'])) ?></span></td>
+                                <td><?= htmlspecialchars($d['poblacion_estimada'] ?? '-') ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+    </section>
+
+    <script>
+    const distribucionData = <?= $distribucionJson ?>;
+    const colores = {
+        residente:   '#2d6a4f',
+        reproductor: '#52b788',
+        invernante:  '#74c69d',
+        migrante:    '#f4a261',
+        ocasional:   '#e9c46a',
+    };
+
+    const mapa = L.map('mapa-distribucion', {
+        center: [40.0, -3.5],
+        zoom: 5,
+        zoomControl: true,
+        scrollWheelZoom: false,
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 10,
+    }).addTo(mapa);
+
+    fetch('<?= BASE_URL ?>/public/js/geo/comunidades.geojson')
+        .then(r => r.json())
+        .then(geojson => {
+            L.geoJSON(geojson, {
+                style: feature => {
+                    const nombre = feature.properties.name;
+                    const datos  = distribucionData.find(d =>
+                        nombre && d.nombre && nombre.toLowerCase().includes(d.nombre.toLowerCase().split(' ')[0])
+                    );
+                    return {
+                        fillColor:   datos ? (colores[datos.presencia] || '#cccccc') : '#eeeeee',
+                        fillOpacity: datos ? 0.75 : 0.3,
+                        color:       '#ffffff',
+                        weight:      1.5,
+                    };
+                },
+                onEachFeature: (feature, layer) => {
+                    const nombre = feature.properties.name;
+                    const datos  = distribucionData.find(d =>
+                        nombre && d.nombre && nombre.toLowerCase().includes(d.nombre.toLowerCase().split(' ')[0])
+                    );
+                    if (datos) {
+                        layer.bindPopup(
+                            `<strong>${datos.nombre}</strong><br>
+                            Presencia: <em>${datos.presencia}</em><br>
+                            ${datos.poblacion_estimada ? 'Población: ' + datos.poblacion_estimada : ''}`
+                        );
+                    } else {
+                        layer.bindPopup(`<strong>${nombre}</strong><br><em>Sin datos para esta especie</em>`);
+                    }
+                    layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.95, weight: 2.5 }));
+                    layer.on('mouseout',  () => layer.setStyle({ fillOpacity: datos ? 0.75 : 0.3, weight: 1.5 }));
+                }
+            }).addTo(mapa);
+        });
+    </script>
 
     <div class="especie-volver">
         <a href="<?= BASE_URL ?>/especies" class="btn-secundario">← Volver a la enciclopedia</a>

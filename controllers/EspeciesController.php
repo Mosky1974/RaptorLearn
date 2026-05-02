@@ -48,6 +48,7 @@ class EspeciesController extends Controller {
             'titulo'               => $especie['nombre_comun'] . ' - RaptorLearn',
             'especie'              => $especie,
             'resultadoGamificacion' => $resultadoGamificacion,
+            'modeloEspecies'       => $this->modelo,
         ]);
     }
 }

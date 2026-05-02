@@ -316,4 +316,19 @@ class EspecieModel extends Model {
         );
         $stmt->execute([$idEspecie]);
     }
+    /**
+     * Obtener distribución por comunidades autónomas
+     */
+    public function obtenerDistribucion(int $idEspecie): array {
+        $stmt = $this->db->prepare(
+            "SELECT ca.nombre, ca.codigo, ca.coordenadas_centro,
+                    ec.presencia, ec.poblacion_estimada, ec.notas
+            FROM especies_comunidades ec
+            JOIN comunidades_autonomas ca ON ca.id_comunidad = ec.id_comunidad
+            WHERE ec.id_especie = ?
+            ORDER BY ca.nombre"
+        );
+        $stmt->execute([$idEspecie]);
+        return $stmt->fetchAll();
+    }
 }
