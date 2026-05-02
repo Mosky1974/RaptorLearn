@@ -1182,3 +1182,54 @@ footer {
 .mapa-tabla {
     margin-top: 1rem;
 }
+
+/* Distribución comunidades */
+.distribucion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.distribucion-item {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.8rem;
+    transition: border-color 0.2s;
+}
+
+.distribucion-item.activa {
+    border-color: #2d6a4f;
+    background: #f0faf4;
+}
+
+.distribucion-cabecera {
+    margin-bottom: 0.5rem;
+}
+
+.distribucion-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.distribucion-check input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.distribucion-detalles .campo {
+    margin-bottom: 0.5rem;
+}
+
+.distribucion-detalles select,
+.distribucion-detalles input[type="text"] {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}

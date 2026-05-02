@@ -61,54 +61,78 @@ class EducadoresController extends Controller {
             if (empty($errores)) {
                 $id = $this->modeloEspecies->crear($_POST, $_SESSION['usuario_id']);
                 if ($id) {
+                    // Guardar distribución
+                    if (!empty($_POST['id_comunidad'])) {
+                        $this->modeloEspecies->guardarDistribucion($id, $_POST);
+                    }
                     $this->redirigir('educadores/imagenes/' . $id);
                     return;
                 }
                 $errores[] = 'Error al crear la especie.';
             }
+            $comunidades = $this->modeloEspecies->obtenerComunidades();
             $this->cargarVista('educadores/especie_form', [
-                'titulo'  => 'Nueva especie',
-                'especie' => $_POST,
-                'errores' => $errores,
-                'editar'  => false,
+                'titulo'      => 'Nueva especie',
+                'especie'     => $_POST,
+                'errores'     => $errores,
+                'editar'      => false,
+                'comunidades' => $comunidades,
+                'distribucion' => [],
             ]);
             return;
         }
 
+        $comunidades = $this->modeloEspecies->obtenerComunidades();
         $this->cargarVista('educadores/especie_form', [
-            'titulo'  => 'Nueva especie',
-            'especie' => [],
-            'errores' => [],
-            'editar'  => false,
+            'titulo'      => 'Nueva especie',
+            'especie'     => [],
+            'errores'     => [],
+            'editar'      => false,
+            'comunidades' => $comunidades,
+            'distribucion' => [],
         ]);
     }
-
+    
     public function editarEspecie(string $id): void {
         $this->requiereEducador();
         $especie = $this->modeloEspecies->obtenerPorId((int) $id);
         if (!$especie) { $this->error404(); return; }
 
+        $comunidades  = $this->modeloEspecies->obtenerComunidades();
+        $distribucion = $this->modeloEspecies->obtenerDistribucion((int) $id);
+
+        // Indexar distribución por id_comunidad para fácil acceso en la vista
+        $distIndexada = [];
+        foreach ($distribucion as $d) {
+            $distIndexada[$d['codigo']] = $d;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errores = $this->validarEspecie($_POST);
             if (empty($errores)) {
                 $this->modeloEspecies->actualizar((int) $id, $_POST);
+                $this->modeloEspecies->guardarDistribucion((int) $id, $_POST);
                 $this->redirigir('educadores/especies');
                 return;
             }
             $this->cargarVista('educadores/especie_form', [
-                'titulo'  => 'Editar especie',
-                'especie' => array_merge($especie, $_POST),
-                'errores' => $errores,
-                'editar'  => true,
+                'titulo'      => 'Editar especie',
+                'especie'     => array_merge($especie, $_POST),
+                'errores'     => $errores,
+                'editar'      => true,
+                'comunidades' => $comunidades,
+                'distribucion' => $distIndexada,
             ]);
             return;
         }
 
         $this->cargarVista('educadores/especie_form', [
-            'titulo'  => 'Editar especie',
-            'especie' => $especie,
-            'errores' => [],
-            'editar'  => true,
+            'titulo'      => 'Editar especie',
+            'especie'     => $especie,
+            'errores'     => [],
+            'editar'      => true,
+            'comunidades' => $comunidades,
+            'distribucion' => $distIndexada,
         ]);
     }
 

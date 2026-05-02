@@ -239,11 +239,18 @@
     fetch('<?= BASE_URL ?>/public/js/geo/comunidades.geojson')
         .then(r => r.json())
         .then(geojson => {
+
+            function normalizar(str) {
+                return str ? str.toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "") : '';
+            }
+
             L.geoJSON(geojson, {
                 style: feature => {
                     const nombre = feature.properties.name;
                     const datos  = distribucionData.find(d =>
-                        nombre && d.nombre && nombre.toLowerCase().includes(d.nombre.toLowerCase().split(' ')[0])
+                        normalizar(nombre) === normalizar(d.nombre)
                     );
                     return {
                         fillColor:   datos ? (colores[datos.presencia] || '#cccccc') : '#eeeeee',
@@ -255,7 +262,7 @@
                 onEachFeature: (feature, layer) => {
                     const nombre = feature.properties.name;
                     const datos  = distribucionData.find(d =>
-                        nombre && d.nombre && nombre.toLowerCase().includes(d.nombre.toLowerCase().split(' ')[0])
+                        normalizar(nombre) === normalizar(d.nombre)
                     );
                     if (datos) {
                         layer.bindPopup(

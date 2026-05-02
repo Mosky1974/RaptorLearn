@@ -186,6 +186,83 @@
             </div>
         </div>
 
+        <div class="form-seccion">
+            <h3>Distribución por Comunidades Autónomas</h3>
+            <p class="texto-gris">Marca las comunidades donde está presente la especie e indica el tipo de presencia y población estimada.</p>
+
+            <div class="distribucion-grid">
+                <?php foreach ($comunidades as $comunidad): ?>
+                    <?php
+                    $codigo  = $comunidad['codigo'];
+                    $dist    = $distribucion[$codigo] ?? null;
+                    $activa  = $dist !== null;
+                    ?>
+                    <div class="distribucion-item <?= $activa ? 'activa' : '' ?>" 
+                        id="item-<?= $codigo ?>">
+                        <div class="distribucion-cabecera">
+                            <label class="distribucion-check">
+                                <input type="checkbox" 
+                                    class="check-comunidad"
+                                    data-codigo="<?= $codigo ?>"
+                                    <?= $activa ? 'checked' : '' ?>
+                                    onchange="toggleComunidad('<?= $codigo ?>')">
+                                <strong><?= htmlspecialchars($comunidad['nombre']) ?></strong>
+                            </label>
+                        </div>
+                        <div class="distribucion-detalles" id="detalles-<?= $codigo ?>" 
+                            style="<?= $activa ? '' : 'display:none' ?>">
+                            
+                            <!-- Campo oculto con id_comunidad -->
+                            <input type="hidden" 
+                                name="id_comunidad[]" 
+                                id="id-<?= $codigo ?>"
+                                value="<?= $activa ? $comunidad['id_comunidad'] : '' ?>"
+                                data-real-id="<?= $comunidad['id_comunidad'] ?>">
+
+                            <div class="campo">
+                                <label>Tipo de presencia</label>
+                                <select name="presencia[]" id="presencia-<?= $codigo ?>">
+                                    <?php foreach (['residente','reproductor','invernante','migrante','ocasional'] as $tipo): ?>
+                                        <option value="<?= $tipo ?>" 
+                                            <?= ($dist['presencia'] ?? '') === $tipo ? 'selected' : '' ?>>
+                                            <?= ucfirst($tipo) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label>Población estimada</label>
+                                <input type="text" 
+                                    name="poblacion_estimada[]"
+                                    placeholder="Ej: 200-300 parejas"
+                                    value="<?= htmlspecialchars($dist['poblacion_estimada'] ?? '') ?>">
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <script>
+        function toggleComunidad(codigo) {
+            const check    = document.querySelector(`[data-codigo="${codigo}"]`);
+            const detalles = document.getElementById(`detalles-${codigo}`);
+            const idInput  = document.getElementById(`id-${codigo}`);
+            const item     = document.getElementById(`item-${codigo}`);
+
+            if (check.checked) {
+                detalles.style.display = 'block';
+                idInput.value = idInput.getAttribute('data-real-id');
+                item.classList.add('activa');
+            } else {
+                detalles.style.display = 'none';
+                idInput.value = '';
+                item.classList.remove('activa');
+            }
+        }
+        </script>
+
         <div class="form-acciones">
             <button type="submit" class="btn-principal">
                 <?= $editar ? 'Guardar cambios' : 'Crear especie' ?>

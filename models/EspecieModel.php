@@ -331,4 +331,40 @@ class EspecieModel extends Model {
         $stmt->execute([$idEspecie]);
         return $stmt->fetchAll();
     }
+    /**
+     * Obtener todas las comunidades autónomas
+     */
+    public function obtenerComunidades(): array {
+        $stmt = $this->db->query(
+            "SELECT * FROM comunidades_autonomas ORDER BY nombre"
+        );
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Guardar distribución por comunidades (reemplaza la existente)
+     */
+    public function guardarDistribucion(int $idEspecie, array $datos): void {
+        // Eliminar distribución anterior
+        $stmt = $this->db->prepare(
+            "DELETE FROM especies_comunidades WHERE id_especie = ?"
+        );
+        $stmt->execute([$idEspecie]);
+
+        // Insertar nueva distribución
+        if (empty($datos['id_comunidad'])) return;
+
+        $stmt = $this->db->prepare(
+            "INSERT INTO especies_comunidades 
+                (id_especie, id_comunidad, presencia, poblacion_estimada)
+            VALUES (?, ?, ?, ?)"
+        );
+
+        foreach ($datos['id_comunidad'] as $i => $idComunidad) {
+            if (empty($idComunidad)) continue;
+            $presencia  = $datos['presencia'][$i] ?? 'residente';
+            $poblacion  = trim($datos['poblacion_estimada'][$i] ?? '');
+            $stmt->execute([$idEspecie, $idComunidad, $presencia, $poblacion ?: null]);
+        }
+    }
 }
