@@ -203,4 +203,14 @@ class UsuarioModel extends Model {
         );
         $stmt->execute([$id]);
     }
+
+    /**
+     * Eliminar cuenta de usuario
+     */
+    public function eliminarCuenta(int $id): bool {
+        $stmt = $this->db->prepare(
+            "DELETE FROM usuarios WHERE id_usuario = ?"
+        );
+        return $stmt->execute([$id]);
+    }
 }

@@ -275,4 +275,14 @@ class JuegoModel extends Model {
             }
         }
     }
+    /**
+     * Eliminar cuestionario (solo el autor o admin)
+     */
+    public function eliminarCuestionario(int $id): bool {
+        // Las preguntas y respuestas se eliminan en cascada por FK
+        $stmt = $this->db->prepare(
+            "DELETE FROM cuestionarios WHERE id_cuestionario = ?"
+        );
+        return $stmt->execute([$id]);
+    }
 }

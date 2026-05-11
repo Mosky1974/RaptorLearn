@@ -322,4 +322,21 @@ class EducadoresController extends Controller {
         if (empty($datos['numero_preguntas'])) $errores[] = 'El número de preguntas es obligatorio.';
         return $errores;
     }
+
+    public function eliminarCuestionario(string $id): void {
+        $this->requiereEducador();
+
+        $cuestionario = $this->modeloJuegos->obtenerCuestionarioPorId((int) $id);
+        if (!$cuestionario) { $this->error404(); return; }
+
+        // Solo puede eliminar el autor o el admin
+        if ($cuestionario['id_autor'] != $_SESSION['usuario_id']
+            && $_SESSION['tipo_usuario'] !== 'admin') {
+            $this->error403();
+            return;
+        }
+
+        $this->modeloJuegos->eliminarCuestionario((int) $id);
+        $this->redirigir('educadores/cuestionarios');
+    }
 }

@@ -21,6 +21,7 @@
         <div class="perfil-acciones">
             <a href="<?= BASE_URL ?>/usuarios/editarPerfil" class="btn-principal">Editar perfil</a>
             <a href="<?= BASE_URL ?>/usuarios/cambiarPassword" class="btn-secundario">Cambiar contraseña</a>
+            <a href="<?= BASE_URL ?>/usuarios/eliminarCuenta" class="btn-eliminar-cuenta">Eliminar cuenta</a>
         </div>
     </div>
 

@@ -32,6 +32,10 @@
                                    class="btn-accion editar">✏️ Editar</a>
                                 <a href="<?= BASE_URL ?>/educadores/editarPreguntas/<?= $c['id_cuestionario'] ?>"
                                    class="btn-accion imagenes">📝 Preguntas</a>
+                                <a href="<?= BASE_URL ?>/educadores/eliminarCuestionario/<?= $c['id_cuestionario'] ?>"
+                                    class="btn-accion eliminar"
+                                    onclick="return confirm('¿Seguro que quieres eliminar este cuestionario? Esta acción no se puede deshacer.')">
+                                    🗑️ Eliminar</a>
                             <?php else: ?>
                                 <span class="texto-gris">Sin permisos</span>
                             <?php endif; ?>

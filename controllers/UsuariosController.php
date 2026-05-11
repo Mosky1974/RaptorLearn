@@ -357,4 +357,30 @@ class UsuariosController extends Controller {
             'ok'      => $ok,
         ]);
     }
+
+    public function eliminarCuenta(): void {
+        $this->requiereLogin();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $usuario = $this->modelo->obtenerPorId($_SESSION['usuario_id']);
+
+            // Verificar contraseña antes de eliminar
+            if (!password_verify($_POST['password'], $usuario['password_hash'])) {
+                $this->cargarVista('usuarios/eliminar_cuenta', [
+                    'titulo' => 'Eliminar cuenta',
+                    'error'  => 'La contraseña introducida no es correcta.',
+                ]);
+                return;
+            }
+
+            $this->modelo->eliminarCuenta($_SESSION['usuario_id']);
+            session_destroy();
+            $this->redirigir('');
+        }
+
+        $this->cargarVista('usuarios/eliminar_cuenta', [
+            'titulo' => 'Eliminar cuenta',
+            'error'  => '',
+        ]);
+    }
 }
