@@ -80,6 +80,12 @@ El sistema sigue una arquitectura en capas:
 
 ## 📦 Instalación y ejecución (entorno local)
 
-1. Clonar el repositorio:
+0. Clonar el repositorio:
    ```bash
    git clone https://github.com/Mosky1974/RaptorLearn.git
+
+1. Clona el repositorio en `htdocs/raptorlearn/`
+2. Copia `config/database.example.php` como `config/database.php` y configura tus credenciales
+3. Importa el esquema en phpMyAdmin: `database/raptorlearn_db_schema.sql`
+4. Asegúrate de que el módulo `mod_rewrite` está activo en Apache
+5. Accede a `http://localhost/raptorlearn`
