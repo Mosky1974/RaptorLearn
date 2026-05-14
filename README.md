@@ -88,3 +88,7 @@ El sistema sigue una arquitectura en capas:
 3. Importa el esquema en phpMyAdmin: `database/raptorlearn_db_schema.sql`
 4. Asegúrate de que el módulo `mod_rewrite` está activo en Apache
 5. Accede a `http://localhost/raptorlearn`
+6. Usuario de prueba (con los 2 perfiles: usuario y educador)
+          Email                   | Contraseña  | Perfil
+          usuario@raptorlearn.es    password      Estudiante
+          educador@raptorlearn.es   password      Educador

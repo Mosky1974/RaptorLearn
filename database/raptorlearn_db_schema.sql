@@ -1326,6 +1326,30 @@ INSERT INTO respuestas (id_pregunta, texto_respuesta, es_correcta, orden_present
 (5, 'Casi Amenazada', FALSE, 4);
 
 -- ============================================================
+-- INSERTAR USUARIOS DE PRUEBA
+-- ============================================================
+INSERT INTO usuarios (
+    email, password_hash, nombre, apellidos, tipo_usuario, 
+    activo, email_verificado, fecha_registro
+) VALUES 
+(
+    'usuario@raptorlearn.es',
+    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uSfalW4ru',
+    'Carlos',
+    'Martínez López',
+    'estudiante',
+    1, 1, NOW()
+),
+(
+    'educador@raptorlearn.es',
+    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uSfalW4ru',
+    'María',
+    'García Fernández',
+    'educador',
+    1, 1, NOW()
+);
+
+-- ============================================================
 -- RASTREAR AUTORIA
 -- ============================================================
 -- Rastrear autor de especies
