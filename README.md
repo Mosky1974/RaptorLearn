@@ -1,15 +1,15 @@
-# RaptorLearn 🦅
+# RaptorLearn
 ## Portal educativo interactivo sobre rapaces ibéricas
 
-📚 **Trabajo Fin de Grado (TFG)**  
-🎓 Ciclo Formativo de Grado Superior en **Desarrollo de Aplicaciones Web (DAW)**  
-👤 Autor: **Joan Blanch Casas**  
-👨‍🏫 Tutor: **Francisco Javier Granados**  
-📆 Curso académico: **2025–2026**
+**Trabajo Fin de Grado (TFG)**  
+Ciclo Formativo de Grado Superior en **Desarrollo de Aplicaciones Web (DAW)**  
+Autor: **Joan Blanch Casas**  
+Tutor: **Francisco Javier Granados**  
+Curso académico: **2025–2026**
 
 ---
 
-## 📝 Descripción del proyecto
+## Descripción del proyecto
 
 **RaptorLearn** es una aplicación web educativa orientada a la divulgación y el aprendizaje sobre las aves rapaces ibéricas.  
 La plataforma ofrece un entorno accesible, visual e interactivo que permite consultar información detallada sobre distintas especies, incluyendo características principales, hábitat, comportamiento, estado de conservación y material multimedia de apoyo.
@@ -18,7 +18,7 @@ El proyecto combina **tecnología web**, **educación ambiental** y **gamificaci
 
 ---
 
-## 🎯 Objetivos
+## Objetivos
 
 ### Objetivo general
 Desarrollar una aplicación web educativa que permita la consulta y divulgación de información sobre aves rapaces, aplicando los conocimientos adquiridos durante el ciclo formativo de Desarrollo de Aplicaciones Web.
@@ -33,7 +33,7 @@ Desarrollar una aplicación web educativa que permita la consulta y divulgación
 
 ---
 
-## 🧱 Arquitectura del sistema
+## Arquitectura del sistema
 
 El sistema sigue una arquitectura en capas:
 
@@ -52,7 +52,7 @@ El sistema sigue una arquitectura en capas:
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - **HTML5** – Estructura semántica y accesible.
 - **CSS3** – Diseño responsive, Flexbox y Grid.
@@ -66,7 +66,7 @@ El sistema sigue una arquitectura en capas:
 
 ---
 
-## 🚀 Funcionalidades principales
+## Funcionalidades principales
 
 - Enciclopedia interactiva de rapaces ibéricas.
 - Fichas de especies con contenido multimedia.
@@ -78,13 +78,12 @@ El sistema sigue una arquitectura en capas:
 
 ---
 
-## 📦 Instalación y ejecución (entorno local)
+## Instalación y ejecución (entorno local)
 
-0. Clonar el repositorio:
+1. Clonar el repositorio:
    ```bash
    git clone https://github.com/Mosky1974/RaptorLearn.git
-
-1. Clona el repositorio en `htdocs/raptorlearn/`
+   en `htdocs/raptorlearn/`
 2. Copia `config/database.example.php` como `config/database.php` y configura tus credenciales
 3. Importa el esquema en phpMyAdmin: `database/raptorlearn_db_schema.sql`
 4. Asegúrate de que el módulo `mod_rewrite` está activo en Apache

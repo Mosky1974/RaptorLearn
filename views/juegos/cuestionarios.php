@@ -1,5 +1,5 @@
 <div class="juegos-contenedor">
-    <h1>❓ Cuestionarios</h1>
+    <h1> Cuestionarios</h1>
     <p>Selecciona un cuestionario para comenzar.</p>
 
     <div class="cuestionarios-lista">
@@ -9,9 +9,9 @@
                     <h3><?= htmlspecialchars($c['titulo']) ?></h3>
                     <p><?= htmlspecialchars($c['descripcion']) ?></p>
                     <div class="cuestionario-meta">
-                        <span>📝 <?= $c['numero_preguntas'] ?> preguntas</span>
-                        <span>⏱️ <?= $c['tiempo_total'] / 60 ?> minutos</span>
-                        <span>✅ Mínimo para aprobar: <?= $c['puntuacion_minima_aprobar'] ?>%</span>
+                        <span> <?= $c['numero_preguntas'] ?> preguntas</span>
+                        <span> <?= $c['tiempo_total'] / 60 ?> minutos</span>
+                        <span> Mínimo para aprobar: <?= $c['puntuacion_minima_aprobar'] ?>%</span>
                     </div>
                 </div>
                 <a href="<?= BASE_URL ?>/juegos/jugar/<?= $c['id_cuestionario'] ?>" 
@@ -22,7 +22,7 @@
 
     <?php if (!empty($ranking)): ?>
         <section class="ranking-seccion">
-            <h2>🏆 Mejores puntuaciones</h2>
+            <h2>Mejores puntuaciones</h2>
             <table class="ranking-tabla">
                 <thead>
                     <tr>

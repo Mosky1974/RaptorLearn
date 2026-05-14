@@ -4,7 +4,7 @@
     <?php if (!empty($errores)): ?>
         <div class="alertas errores">
             <?php foreach ($errores as $error): ?>
-                <p>⚠️ <?= htmlspecialchars($error) ?></p>
+                <p><?= htmlspecialchars($error) ?></p>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>

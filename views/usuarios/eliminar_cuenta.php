@@ -1,13 +1,13 @@
 <div class="formulario-contenedor">
-    <h1>⚠️ Eliminar cuenta</h1>
+    <h1>Eliminar cuenta</h1>
 
     <div class="alertas errores">
-        <p>⚠️ Esta acción es <strong>permanente e irreversible</strong>. Se eliminarán todos tus datos, progreso, insignias e historial de actividad.</p>
+        <p>Esta acción es <strong>permanente e irreversible</strong>. Se eliminarán todos tus datos, progreso, insignias e historial de actividad.</p>
     </div>
 
     <?php if (!empty($error)): ?>
         <div class="alertas errores">
-            <p>⚠️ <?= htmlspecialchars($error) ?></p>
+            <p><?= htmlspecialchars($error) ?></p>
         </div>
     <?php endif; ?>
 

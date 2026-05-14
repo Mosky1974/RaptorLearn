@@ -9,13 +9,15 @@
     <title><?= htmlspecialchars($titulo ?? APP_NAME) ?></title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=extension" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
     <header>
         <nav>
-            <a href="<?= BASE_URL ?>"><strong>🦅 RaptorLearn</strong></a>
+            <a href="<?= BASE_URL ?>"><strong><img src="/raptorlearn/public/img/RaptorLearn.png" width="32" height="32">
+                 RaptorLearn</strong></a>
             <ul>
                 <li><a href="<?= BASE_URL ?>/especies">Enciclopedia</a></li>
                 <li><a href="<?= BASE_URL ?>/juegos">Mini-juegos</a></li>
@@ -34,14 +36,14 @@
     <main>
         <?php if (!empty($_SESSION['nivel_nuevo'])): ?>
             <div class="notificacion-nivel">
-                🎉 ¡Felicidades! Has subido al nivel <strong><?= htmlspecialchars($_SESSION['nivel_nuevo']) ?></strong>
+                ¡Felicidades! Has subido al nivel <strong><?= htmlspecialchars($_SESSION['nivel_nuevo']) ?></strong>
                 <button onclick="this.parentElement.remove()">✕</button>
             </div>
             <?php unset($_SESSION['nivel_nuevo']); ?>
         <?php endif; ?>
         <?php if (!empty($_SESSION['especie_nueva'])): ?>
             <div class="notificacion-especie">
-                🦅 ¡Nueva especie descubierta! <strong><?= htmlspecialchars($_SESSION['especie_nueva']) ?></strong>
+                ¡Nueva especie descubierta! <strong><?= htmlspecialchars($_SESSION['especie_nueva']) ?></strong>
                 <button onclick="this.parentElement.remove()">✕</button>
             </div>
             <?php unset($_SESSION['especie_nueva']); ?>

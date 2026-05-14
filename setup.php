@@ -795,12 +795,12 @@ foreach ($carpetas as $carpeta) {
     $ruta = $base . '/' . $carpeta;
     if (!is_dir($ruta)) {
         if (mkdir($ruta, 0755, true)) {
-            $creados[] = '📁 ' . $carpeta . '/';
+            $creados[] = ' ' . $carpeta . '/';
         } else {
-            $errores[] = '❌ No se pudo crear: ' . $carpeta . '/';
+            $errores[] = ' No se pudo crear: ' . $carpeta . '/';
         }
     } else {
-        $creados[] = '⚠️ Ya existía: ' . $carpeta . '/';
+        $creados[] = ' Ya existía: ' . $carpeta . '/';
     }
 }
 
@@ -814,12 +814,12 @@ foreach ($archivos as $relativo => $contenido) {
     $ruta = $base . '/' . $relativo;
     if (!file_exists($ruta)) {
         if (file_put_contents($ruta, $contenido) !== false) {
-            $creados[] = '✅ ' . $relativo;
+            $creados[] = ' ' . $relativo;
         } else {
-            $errores[] = '❌ No se pudo crear: ' . $relativo;
+            $errores[] = ' No se pudo crear: ' . $relativo;
         }
     } else {
-        $creados[] = '⚠️ Ya existía (no sobreescrito): ' . $relativo;
+        $creados[] = ' Ya existía (no sobreescrito): ' . $relativo;
     }
 }
 
@@ -845,12 +845,12 @@ foreach ($archivos as $relativo => $contenido) {
     </style>
 </head>
 <body>
-    <h1>🦅 RaptorLearn - Instalación de estructura MVC</h1>
+    <h1>RaptorLearn - Instalación de estructura MVC</h1>
 
     <h2>Resultado:</h2>
     <ul>
         <?php foreach ($creados as $msg): ?>
-            <li class="<?= str_starts_with($msg, '✅') ? 'ok' : (str_starts_with($msg, '❌') ? 'err' : 'warn') ?>">
+            <li class="<?= str_starts_with($msg, '') ? 'ok' : (str_starts_with($msg, '') ? 'err' : 'warn') ?>">
                 <?= htmlspecialchars($msg) ?>
             </li>
         <?php endforeach; ?>
@@ -866,7 +866,7 @@ foreach ($archivos as $relativo => $contenido) {
     <?php endif; ?>
 
     <div class="aviso">
-        ⚠️ <strong>IMPORTANTE:</strong> Elimina este archivo <code>setup.php</code> ahora que la instalación ha terminado.<br><br>
+        <strong>IMPORTANTE:</strong> Elimina este archivo <code>setup.php</code> ahora que la instalación ha terminado.<br><br>
         Luego abre <a href="http://localhost/raptorlearn">http://localhost/raptorlearn</a> para ver la aplicación.
     </div>
 </body>

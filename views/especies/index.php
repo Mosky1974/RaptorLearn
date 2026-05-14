@@ -3,7 +3,7 @@
 <!-- Buscador en vivo -->
 <div class="buscador-wrapper">
     <div class="buscador-campo">
-        <span class="buscador-icono">🔍</span>
+        <span class="buscador-icono"></span>
         <input
             type="search"
             id="buscador"
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderTarjeta(e) {
         const img = e.ruta_imagen
             ? `<img src="${BASE_URL}/public/img/especies/${e.ruta_imagen}" alt="${e.nombre_comun}" loading="lazy">`
-            : `<div class="tarjeta-sin-imagen">🦅</div>`;
+            : `<div class="tarjeta-sin-imagen"></div>`;
 
         return `
             <a href="${BASE_URL}/especies/detalle/${e.id_especie}" class="tarjeta-especie">

@@ -1,13 +1,13 @@
 <div class="educadores-contenedor">
     <div class="seccion-cabecera">
-        <h1>🖼️ Imágenes: <?= htmlspecialchars($especie['nombre_comun']) ?></h1>
+        <h1>Imágenes: <?= htmlspecialchars($especie['nombre_comun']) ?></h1>
         <a href="<?= BASE_URL ?>/educadores/especies" class="btn-secundario">← Volver</a>
     </div>
 
     <?php if (!empty($errores)): ?>
         <div class="alertas errores">
             <?php foreach ($errores as $error): ?>
-                <p>⚠️ <?= htmlspecialchars($error) ?></p>
+                <p><?= htmlspecialchars($error) ?></p>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
@@ -61,7 +61,7 @@
                         <img src="<?= BASE_URL ?>/public/img/especies/<?= htmlspecialchars($img['ruta_imagen']) ?>"
                              alt="<?= htmlspecialchars($img['descripcion'] ?? '') ?>">
                         <?php if ($img['es_principal']): ?>
-                            <span class="badge-principal">⭐ Principal</span>
+                            <span class="badge-principal">Principal</span>
                         <?php endif; ?>
                         <p class="imagen-tipo"><?= htmlspecialchars($img['tipo']) ?></p>
                         <p class="imagen-creditos"><?= htmlspecialchars($img['creditos']) ?></p>

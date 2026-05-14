@@ -29,13 +29,13 @@
                         <td class="acciones">
                             <?php if ($c['id_autor'] == $_SESSION['usuario_id'] || $_SESSION['tipo_usuario'] === 'admin'): ?>
                                 <a href="<?= BASE_URL ?>/educadores/editarCuestionario/<?= $c['id_cuestionario'] ?>"
-                                   class="btn-accion editar">✏️ Editar</a>
+                                   class="btn-accion editar">Editar</a>
                                 <a href="<?= BASE_URL ?>/educadores/editarPreguntas/<?= $c['id_cuestionario'] ?>"
-                                   class="btn-accion imagenes">📝 Preguntas</a>
+                                   class="btn-accion imagenes">Preguntas</a>
                                 <a href="<?= BASE_URL ?>/educadores/eliminarCuestionario/<?= $c['id_cuestionario'] ?>"
                                     class="btn-accion eliminar"
                                     onclick="return confirm('¿Seguro que quieres eliminar este cuestionario? Esta acción no se puede deshacer.')">
-                                    🗑️ Eliminar</a>
+                                    Eliminar</a>
                             <?php else: ?>
                                 <span class="texto-gris">Sin permisos</span>
                             <?php endif; ?>

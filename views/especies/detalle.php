@@ -39,7 +39,7 @@
     ?>
     <?php if (!empty($imagenesGaleria)): ?>
         <section class="especie-seccion">
-            <h3>📷 Galería de imágenes</h3>
+            <h3>Galería de imágenes</h3>
             <div class="galeria-grid">
                 <?php foreach ($imagenesGaleria as $img): ?>
                     <figure class="galeria-item" onclick="abrirLightbox('<?= BASE_URL ?>/public/img/especies/<?= htmlspecialchars($img['ruta_imagen']) ?>', '<?= htmlspecialchars(addslashes($img['creditos'] ?? '')) ?>')">
@@ -148,7 +148,7 @@
     <!-- Curiosidades -->
     <?php if (!empty($especie['curiosidades'])): ?>
         <section class="especie-seccion especie-curiosidades">
-            <h3>💡 ¿Sabías que...?</h3>
+            <h3>¿Sabías que...?</h3>
             <p><?= htmlspecialchars($especie['curiosidades']) ?></p>
         </section>
     <?php endif; ?>
@@ -156,7 +156,7 @@
     <!-- Audios -->
     <?php if (!empty($especie['audios'])): ?>
         <section class="especie-seccion">
-            <h3>🔊 Cantos y llamadas</h3>
+            <h3>Cantos y llamadas</h3>
             <?php foreach ($especie['audios'] as $audio): ?>
                 <div class="audio-item">
                     <p><?= htmlspecialchars($audio['descripcion'] ?? $audio['tipo_canto']) ?></p>
@@ -173,7 +173,7 @@
 
     <!-- Mapa de distribución -->
     <section class="especie-seccion">
-        <h3>🗺️ Distribución en la Península Ibérica</h3>
+        <h3>Distribución en la Península Ibérica</h3>
 
         <?php
         $distribucion = $modeloEspecies->obtenerDistribucion($especie['id_especie']);

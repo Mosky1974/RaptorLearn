@@ -2,7 +2,7 @@
     <div class="cuestionario-cabecera">
         <h1><?= htmlspecialchars($cuestionario['titulo']) ?></h1>
         <div class="cuestionario-timer" id="timer">
-            ⏱️ <span id="tiempo"><?= $cuestionario['tiempo_total'] ?></span>s
+            <span id="tiempo"><?= $cuestionario['tiempo_total'] ?></span>s
         </div>
     </div>
 

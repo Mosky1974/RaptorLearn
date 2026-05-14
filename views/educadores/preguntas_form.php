@@ -1,5 +1,5 @@
 <div class="educadores-contenedor">
-    <h1>📝 <?= htmlspecialchars($titulo) ?></h1>
+    <h1><?= htmlspecialchars($titulo) ?></h1>
     <p class="texto-gris">Añade las preguntas y sus 4 opciones de respuesta. Marca cuál es la correcta.</p>
 
     <form method="POST" action="<?= BASE_URL ?>/educadores/editarPreguntas/<?= $cuestionario['id_cuestionario'] ?>">

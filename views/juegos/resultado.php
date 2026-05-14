@@ -15,7 +15,7 @@
             <div class="resultado-pregunta <?= $r['es_correcta'] ? 'correcta' : 'incorrecta' ?>">
                 <div class="resultado-pregunta-header">
                     <span class="resultado-num">Pregunta <?= $i + 1 ?></span>
-                    <span class="resultado-icono-pequeño"><?= $r['es_correcta'] ? '✅' : '❌' ?></span>
+                    <span class="resultado-icono-pequeño"><?= $r['es_correcta'] ? '(V)' : '(X)' ?></span>
                 </div>
                 <p class="resultado-enunciado"><?= htmlspecialchars($r['enunciado']) ?></p>
                 <p>Tu respuesta: <strong><?= htmlspecialchars($r['respuesta_seleccionada'] ?? 'Sin respuesta') ?></strong></p>
@@ -23,7 +23,7 @@
                     <p class="respuesta-correcta">Respuesta correcta: <strong><?= htmlspecialchars($r['respuesta_correcta']) ?></strong></p>
                 <?php endif; ?>
                 <?php if (!empty($r['explicacion'])): ?>
-                    <p class="resultado-explicacion">💡 <?= htmlspecialchars($r['explicacion']) ?></p>
+                    <p class="resultado-explicacion"><?= htmlspecialchars($r['explicacion']) ?></p>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
