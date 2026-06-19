@@ -285,4 +285,34 @@ class JuegoModel extends Model {
         );
         return $stmt->execute([$id]);
     }
+    /**
+     * Obtener especies con imagen principal para usar en puzzle/memoria
+     */
+    public function obtenerEspeciesParaJuego(int $limite = 8): array {
+        $stmt = $this->db->prepare(
+            "SELECT e.id_especie, e.nombre_comun, e.nombre_cientifico, i.ruta_imagen
+            FROM especies e
+            JOIN imagenes_especies i ON i.id_especie = e.id_especie AND i.es_principal = 1
+            WHERE e.activa = 1
+            ORDER BY RAND()
+            LIMIT ?"
+        );
+        $stmt->execute([$limite]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Obtener una especie aleatoria con imagen para el puzzle
+     */
+    public function obtenerEspecieParaPuzzle(): array|false {
+        $stmt = $this->db->query(
+            "SELECT e.id_especie, e.nombre_comun, e.nombre_cientifico, i.ruta_imagen
+            FROM especies e
+            JOIN imagenes_especies i ON i.id_especie = e.id_especie AND i.es_principal = 1
+            WHERE e.activa = 1
+            ORDER BY RAND()
+            LIMIT 1"
+        );
+        return $stmt->fetch();
+    }
 }

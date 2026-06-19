@@ -157,4 +157,129 @@ class JuegosController extends Controller {
             'tiempoEmpleado' => $tiempoEmpleado,
         ]);
     }
+    // ============================================================
+    // PUZZLE
+    // ============================================================
+
+    public function puzzle(): void {
+        $this->requiereLogin();
+
+        $especie = $this->modelo->obtenerEspecieParaPuzzle();
+        if (!$especie) {
+            $this->redirigir('juegos');
+            return;
+        }
+
+        $idPartida = $this->modelo->iniciarPartida($_SESSION['usuario_id'], 2);
+        $_SESSION['partida_puzzle'] = [
+            'id_partida' => $idPartida,
+            'inicio'     => time(),
+        ];
+
+        $this->cargarVista('juegos/puzzle', [
+            'titulo'  => 'Puzzle: ' . $especie['nombre_comun'],
+            'especie' => $especie,
+        ]);
+    }
+
+    public function finalizarPuzzle(): void {
+        $this->requiereLogin();
+
+        if (empty($_SESSION['partida_puzzle'])) {
+            $this->json(['error' => 'No hay partida activa'], 400);
+            return;
+        }
+
+        $partida = $_SESSION['partida_puzzle'];
+        $tiempoEmpleado = time() - $partida['inicio'];
+        unset($_SESSION['partida_puzzle']);
+
+        // Puntuación basada en tiempo: más rápido, más puntos (máximo 20, mínimo 5)
+        $puntuacion = max(5, 20 - intdiv($tiempoEmpleado, 15));
+
+        $this->modelo->finalizarPartida($partida['id_partida'], $puntuacion, $tiempoEmpleado);
+
+        $gamificacion = new GamificacionService();
+        $resultado = $gamificacion->añadirPuntos(
+            $_SESSION['usuario_id'],
+            $puntuacion,
+            'juego_jugado',
+            "Puzzle completado en {$tiempoEmpleado}s"
+        );
+
+        if (!empty($resultado['subio_nivel'])) {
+            $_SESSION['nivel_nuevo'] = $resultado['nivel_nuevo']['nombre_nivel'];
+        }
+
+        $this->json([
+            'puntuacion'     => $puntuacion,
+            'tiempoEmpleado' => $tiempoEmpleado,
+            'subioNivel'     => $resultado['subio_nivel'],
+        ]);
+    }
+
+    // ============================================================
+    // MEMORIA
+    // ============================================================
+
+    public function memoria(): void {
+        $this->requiereLogin();
+
+        $especies = $this->modelo->obtenerEspeciesParaJuego(6);
+        if (count($especies) < 4) {
+            $this->redirigir('juegos');
+            return;
+        }
+
+        $idPartida = $this->modelo->iniciarPartida($_SESSION['usuario_id'], 3);
+        $_SESSION['partida_memoria'] = [
+            'id_partida' => $idPartida,
+            'inicio'     => time(),
+        ];
+
+        $this->cargarVista('juegos/memoria', [
+            'titulo'   => 'Memoria de Rapaces',
+            'especies' => $especies,
+        ]);
+    }
+
+    public function finalizarMemoria(): void {
+        $this->requiereLogin();
+
+        if (empty($_SESSION['partida_memoria'])) {
+            $this->json(['error' => 'No hay partida activa'], 400);
+            return;
+        }
+
+        $partida = $_SESSION['partida_memoria'];
+        $tiempoEmpleado = time() - $partida['inicio'];
+        unset($_SESSION['partida_memoria']);
+
+        $intentos = (int) ($_POST['intentos'] ?? 0);
+        $parejas  = (int) ($_POST['parejas'] ?? 0);
+
+        // Puntuación: base por pareja, penalización por intentos extra
+        $puntuacion = max(5, ($parejas * 5) - max(0, $intentos - $parejas) * 1);
+
+        $this->modelo->finalizarPartida($partida['id_partida'], $puntuacion, $tiempoEmpleado);
+
+        $gamificacion = new GamificacionService();
+        $resultado = $gamificacion->añadirPuntos(
+            $_SESSION['usuario_id'],
+            $puntuacion,
+            'juego_jugado',
+            "Memoria completado en {$tiempoEmpleado}s ({$intentos} intentos)"
+        );
+
+        if (!empty($resultado['subio_nivel'])) {
+            $_SESSION['nivel_nuevo'] = $resultado['nivel_nuevo']['nombre_nivel'];
+        }
+
+        $this->json([
+            'puntuacion'     => $puntuacion,
+            'tiempoEmpleado' => $tiempoEmpleado,
+            'subioNivel'     => $resultado['subio_nivel'],
+        ]);
+    }
+
 }
